@@ -1,0 +1,29 @@
+# Keil C51 build output
+obj/
+lst/
+*.hex
+*.omf
+*.lst
+*.m51
+*.map
+*.orc
+*.ORC
+
+# Build / tool logs
+*.log
+
+# Keil µVision user state (per-user, not project)
+*.uvopt
+*.uvgui.*
+*.bak
+*.dep
+*.plg
+*.crf
+*.d
+*.i
+*.__i
+
+# Editor / OS cruft
+.vscode/
+.DS_Store
+Thumbs.db
