@@ -217,7 +217,7 @@ The keep-alive guard (shared predicate `NOTURNO_KEEPALIVE_HOLD` in `cm68.h` =
 | JT_043b codes 0x00/0x06/0x13/0x16 | leaf.c `FUN_043b` | `P3_6=1`, force action `0x05` (SETB) instead of the cut handlers |
 | CLR P3.6 @0x0df2 | port01 `FUN_0cc9` | hold `P3_6=1` in low-voltage cut state 3 |
 | CLR P3.6 @0x2373 | power.c `FUN_2342` | hold `P3_6=1` on peripheral (re)init |
-| hard reset @0x262d | port04 `FUN_262d` | skip the spin-to-reset; `P3_6=1`, return |
+| hard reset @0x262d | port04 `FUN_262d` | **not guarded** (changed 2026-10-09): its only caller is the `0x15`/sub-1 enter-IAP command, and skipping the reset blocked re-flashing (FLASH_RECOVERY §1, §3) |
 
 Each guard is `#ifdef NOTURNO_SLEEP_FIX` and commented with the original behaviour
 it overrides; the faithful build is byte-faithful (no guard compiled in).

@@ -851,16 +851,11 @@ u8 sys_work_clear(void)
  * ======================================================================== */
 u8 isp_system_reset(void)
 {
-#ifdef NOTURNO_SLEEP_FIX
-    /* FIX: this is a hard reset (flash-key unlock + spin-to-reset).  A spurious
-     * reset would drop the SoC rail and defeat the keep-alive.  When keep-alive
-     * is active, hold the rail HIGH and skip the reset entirely.  Overrides the
-     * original unconditional hard reset @0x262d. */
-    if (NOTURNO_KEEPALIVE_HOLD) {
-        P3_6 = 1;
-        return 0;
-    }
-#endif
+    /* Deliberately NOT guarded by NOTURNO_SLEEP_FIX.  The only caller is the
+     * updater's "enter IAP" command (0x15 / sub 1, cluster.c).  Skipping the
+     * reset while keep-alive is held would stop the unit rebooting into the
+     * LDROM loader, so a flashed sleep-fix image could not be re-flashed
+     * (docs/FLASH_RECOVERY.md s1, s3).  Same code as the faithful build. */
     XD(0xf691) = 0x55;
     HKEY  = 0xaa;
     HKEY  = 0x55;
